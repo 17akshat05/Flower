@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cute Goodnight Message</title>
+    <title>Cute Goodnight & Good Morning Message</title>
     <style>
         body {
             margin: 0;
@@ -14,6 +14,7 @@
             background: linear-gradient(to bottom, #1a1a2e, #16213e);
             font-family: 'Arial', sans-serif;
             overflow: hidden;
+            transition: background 1s ease;
         }
         .container {
             text-align: center;
@@ -32,7 +33,7 @@
             text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
             animation: fadeIn 3s ease-in;
         }
-        .moon {
+        .celestial {
             width: 100px;
             height: 100px;
             background: radial-gradient(circle, #f0e68c 50%, transparent 55%);
@@ -43,6 +44,7 @@
             transform: translateX(-50%);
             animation: glow 4s ease-in-out infinite;
             z-index: 5;
+            cursor: pointer;
         }
         .flower {
             position: absolute;
@@ -50,6 +52,22 @@
             animation: fall linear infinite;
             color: #ff9999;
             text-shadow: 0 0 5px rgba(255, 153, 153, 0.7);
+        }
+        .sun-theme body {
+            background: linear-gradient(to bottom, #87ceeb, #ffeb99);
+        }
+        .sun-theme .celestial {
+            background: radial-gradient(circle, #ffa500 50%, transparent 55%);
+            box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.7);
+        }
+        .sun-theme .container {
+            color: #333;
+        }
+        .sun-theme h1 {
+            text-shadow: 0 0 10px rgba(255, 165, 0, 0.8);
+        }
+        .sun-theme p {
+            text-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -59,6 +77,10 @@
             0%, 100% { box-shadow: 0 0 20px 5px rgba(240, 230, 140, 0.7); }
             50% { box-shadow: 0 0 30px 10px rgba(240, 230, 140, 1); }
         }
+        .sun-theme @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px 5px rgba(255, 165, 0, 0.7); }
+            50% { box-shadow: 0 0 30px 10px rgba(255, 165, 0, 1); }
+        }
         @keyframes fall {
             0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
@@ -66,12 +88,26 @@
     </style>
 </head>
 <body>
-    <div class="moon"></div>
+    <div class="celestial" onclick="toggleTheme()"></div>
     <div class="container">
-        <h1>Goodnight Sweetie</h1>
-        <p>Stay happy and lots of love to you baccha! 🌙</p>
+        <h1 id="mainMessage">Goodnight Sweetie</h1>
+        <p id="subMessage">Stay happy and lots of love to you baccha! 🌙</p>
     </div>
     <script>
+        let isNight = true;
+        function toggleTheme() {
+            isNight = !isNight;
+            document.body.classList.toggle('sun-theme');
+            const mainMessage = document.getElementById('mainMessage');
+            const subMessage = document.getElementById('subMessage');
+            if (isNight) {
+                mainMessage.textContent = 'Goodnight Sweetie';
+                subMessage.textContent = 'Stay happy and lots of love to you baccha! 🌙';
+            } else {
+                mainMessage.textContent = 'Good Morning Sweetie';
+                subMessage.textContent = 'Rise and shine, baccha! Lots of love! ☀️';
+            }
+        }
         function createFlower() {
             const flower = document.createElement('div');
             flower.className = 'flower';
