@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Realistic Cute Flower Loading Screen</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: linear-gradient(to bottom, #fff0f5, #e0f7fa);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Georgia', serif;
+    }
+
+    .loading, .flowers {
+      display: none;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .loading.active, .flowers.active {
+      display: flex;
+    }
+
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      flex-direction: column;
+      z-index: 1000;
+    }
+
+    .loading-text {
+      font-size: 28px;
+      color: #ff6f91;
+      margin-bottom: 20px;
+      animation: pulse 2s infinite;
+    }
+
+    .flower {
+      width: 100px;
+      height: 100px;
+      position: relative;
+    }
+
+    .loading .flower {
+      animation: gentleSpin 3s linear infinite;
+    }
+
+    .petal {
+      width: 40px;
+      height: 60px;
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      transform-origin: bottom center;
+      background-size: cover;
+      background-position: center;
+      filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+    }
+
+    /* Pink flower petals (Unsplash image of a pink petal) */
+    .flower:nth-child(2) .petal, .loading .flower:nth-child(2) .petal {
+      background-image: url('https://images.unsplash.com/photo-1615484477201-9f4956e1c80c?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=60&w=40');
+    }
+
+    /* White flower petals (Unsplash image of a white petal) */
+    .flower:nth-child(3) .petal, .loading .flower:nth-child(3) .petal {
+      background-image: url('https://images.unsplash.com/photo-1590419983616-93d154c6e5e9?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=60&w=40');
+    }
+
+    /* Lavender flower petals (Unsplash image of a lavender petal) */
+    .flower:nth-child(4) .petal, .loading .flower:nth-child(4) .petal {
+      background-image: url('https://images.unsplash.com/photo-1590419983616-93d154c6e5e9?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=60&w=40');
+    }
+
+    .petal:nth-child(1) { transform: rotate(0deg); animation: sway 3.5s ease-in-out infinite alternate; }
+    .petal:nth-child(2) { transform: rotate(60deg); animation: sway 3.5s ease-in-out infinite alternate 0.2s; }
+    .petal:nth-child(3) { transform: rotate(120deg); animation: sway 3.5s ease-in-out infinite alternate 0.4s; }
+    .petal:nth-child(4) { transform: rotate(180deg); animation: sway 3.5s ease-in-out infinite alternate 0.6s; }
+    .petal:nth-child(5) { transform: rotate(240deg); animation: sway 3.5s ease-in-out infinite alternate 0.8s; }
+    .petal:nth-child(6) { transform: rotate(300deg); animation: sway 3.5s ease-in-out infinite alternate 1s; }
+
+    .center {
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #ffca28, #fff59d);
+      border-radius: 50%;
+      position: absolute;
+      top: 35px;
+      left: 35px;
+      animation: bounce 2.5s infinite;
+    }
+
+    .stem {
+      position: absolute;
+      width: 10px;
+      height: 90px;
+      background-image: url('https://images.unsplash.com/photo-1606041008023-472dfb5e5302?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=90&w=10');
+      background-size: cover;
+      left: 45px;
+      top: 50px;
+      z-index: -1;
+      border-radius: 5px;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 35px;
+      height: 50px;
+      background-image: url('https://images.unsplash.com/photo-1606041008023-472dfb5e5302?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=50&w=35');
+      background-size: cover;
+      border-radius: 50% 0;
+      top: 70px;
+      left: 30px;
+      transform: rotate(-45deg);
+      filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.2));
+    }
+
+    .leaf.right {
+      left: 55px;
+      transform: rotate(45deg);
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, #ffffff, #ffeb3b);
+      border-radius: 50%;
+      animation: sparkle 2s infinite;
+      z-index: 5;
+    }
+
+    .sparkle:nth-child(7) {
+      top: 10px;
+      left: 10px;
+      animation-delay: 0s;
+    }
+
+    .sparkle:nth-child(8) {
+      top: -10px;
+      left: 70px;
+      animation-delay: 0.5s;
+    }
+
+    .sparkle:nth-child(9) {
+      top: 80px;
+      left: 40px;
+      animation-delay: 1s;
+    }
+
+    /* Animations */
+    @keyframes gentleSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes sway {
+      0% { transform: rotate(0deg) scale(0.9); }
+      100% { transform: rotate(4deg) scale(1); }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes bounce {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05) translateY(-3px); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes sparkle {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.8; transform: scale(1); }
+      100% { opacity: 0; transform: scale(0.5); }
+    }
+
+    /* Mobile Optimization */
+    @media (max-width: 600px) {
+      .flower {
+        width: 60px;
+        height: 60px;
+      }
+      .petal {
+        width: 24px;
+        height: 36px;
+        top: 12px;
+        left: 18px;
+      }
+      .center {
+        width: 18px;
+        height: 18px;
+        top: 21px;
+        left: 21px;
+      }
+      .stem {
+        width: 6px;
+        height: 60px;
+        left: 27px;
+        top: 30px;
+      }
+      .leaf {
+        width: 20px;
+        height: 30px;
+        top: 45px;
+        left: 20px;
+      }
+      .leaf.right {
+        left: 34px;
+      }
+      .sparkle {
+        width: 6px;
+        height: 6px;
+      }
+      .loading-text {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading active">
+    <div class="loading-text">Blooming...</div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+    </div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+    </div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+    </div>
+  </div>
+
+  <div class="flowers">
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="stem"></div>
+      <div class="leaf"></div>
+      <div class="leaf right"></div>
+    </div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="sparkle"></div>
+      <div class="stem"></div>
+      <div class="leaf"></div>
+      <div class="leaf right"></div>
+    </div>
+    <div class="flower">
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="petal"></div>
+      <div class="center"></div>
+      <div class="sparkle"></div>
+      
