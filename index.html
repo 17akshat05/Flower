@@ -1,277 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pink Rose Loading Animation</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: linear-gradient(to bottom, #fff0f5, #fce4ec);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Comic Sans MS', 'Georgia', sans-serif;
-    }
-
-    .loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .loading.active {
-      display: flex;
-    }
-
-    .loading-text {
-      font-size: 28px;
-      color: #ff6f91;
-      margin-bottom: 20px;
-      animation: pulse 2s infinite;
-    }
-
-    .flower {
-      width: 80px;
-      height: 80px;
-      position: relative;
-      animation: gentleSpin 2.5s linear infinite;
-    }
-
-    .petal {
-      width: 30px;
-      height: 50px;
-      border-radius: 50% 50% 40% 40%;
-      position: absolute;
-      top: 15px;
-      left: 25px;
-      transform-origin: bottom center;
-      background: linear-gradient(to bottom, #ff8a80, #fce4ec);
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15), inset 0 0 5px rgba(255, 255, 255, 0.4);
-      animation: sway 3s ease-in-out infinite alternate;
-    }
-
-    .petal:nth-child(1) { transform: rotate(0deg); animation-delay: 0s; }
-    .petal:nth-child(2) { transform: rotate(60deg); animation-delay: 0.2s; }
-    .petal:nth-child(3) { transform: rotate(120deg); animation-delay: 0.4s; }
-    .petal:nth-child(4) { transform: rotate(180deg); animation-delay: 0.6s; }
-    .petal:nth-child(5) { transform: rotate(240deg); animation-delay: 0.8s; }
-    .petal:nth-child(6) { transform: rotate(300deg); animation-delay: 1s; }
-
-    .center {
-      width: 25px;
-      height: 25px;
-      background: radial-gradient(circle, #ffca28, #fff59d);
-      border-radius: 50%;
-      position: absolute;
-      top: 27.5px;
-      left: 27.5px;
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      animation: bounce 2s infinite;
-    }
-
-    .happy-text {
-      display: none;
-      font-size: 24px;
-      color: #ff6f91;
-      text-align: center;
-      position: relative;
-      animation: fadeIn 1s ease-in forwards;
-      max-width: 80%;
-      line-height: 1.5;
-      padding: 40px; /* Space for hearts to surround */
-    }
-
-    .happy-text.active {
-      display: block;
-    }
-
-    .heart {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: #ff6f91;
-      transform: rotate(-45deg);
-      animation: heartFloat 4s ease-in-out infinite;
-      z-index: 5;
-    }
-
-    .heart::before, .heart::after {
-      content: '';
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      background: #ff6f91;
-      border-radius: 50%;
-    }
-
-    .heart::before {
-      top: -6px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: 6px;
-      top: 0;
-    }
-
-    /* Positions to form a circle around the text */
-    .heart:nth-child(2) { top: -40px; left: 0; animation-delay: 0s; }
-    .heart:nth-child(3) { top: -28px; left: 28px; animation-delay: 0.3s; }
-    .heart:nth-child(4) { top: 0; left: 40px; animation-delay: 0.6s; }
-    .heart:nth-child(5) { top: 28px; left: 28px; animation-delay: 0.9s; }
-    .heart:nth-child(6) { top: 40px; left: 0; animation-delay: 1.2s; }
-    .heart:nth-child(7) { top: 28px; left: -28px; animation-delay: 1.5s; }
-    .heart:nth-child(8) { top: 0; left: -40px; animation-delay: 1.8s; }
-    .heart:nth-child(9) { top: -28px; left: -28px; animation-delay: 2.1s; }
-    .heart:nth-child(10) { top: -50px; left: 20px; animation-delay: 2.4s; }
-    .heart:nth-child(11) { top: 50px; left: 20px; animation-delay: 2.7s; }
-    .heart:nth-child(12) { top: 50px; left: -20px; animation-delay: 3.0s; }
-    .heart:nth-child(13) { top: -50px; left: -20px; animation-delay: 3.3s; }
-
-    /* Animations */
-    @keyframes gentleSpin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes sway {
-      0% { transform: rotate(0deg) scale(0.9); }
-      100% { transform: rotate(5deg) scale(1); }
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes bounce {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05) translateY(-3px); }
-      100% { transform: scale(1); }
-    }
-
-    @keyframes heartFloat {
-      0% {
-        transform: translate(0, 0) rotate(-45deg) scale(0.8);
-        opacity: 0.7;
-      }
-      50% {
-        transform: translate(0, -15px) rotate(-45deg) scale(1.1);
-        opacity: 1;
-        box-shadow: 0 0 10px rgba(255, 111, 145, 0.5);
-      }
-      100% {
-        transform: translate(0, 0) rotate(-45deg) scale(0.8);
-        opacity: 0.7;
-      }
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(10px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Mobile Optimization */
-    @media (max-width: 600px) {
-      .flower {
-        width: 50px;
-        height: 50px;
-      }
-      .petal {
-        width: 18px;
-        height: 30px;
-        top: 10px;
-        left: 16px;
-      }
-      .center {
-        width: 15px;
-        height: 15px;
-        top: 17.5px;
-        left: 17.5px;
-      }
-      .loading-text {
-        font-size: 20px;
-      }
-      .happy-text {
-        font-size: 18px;
-        max-width: 90%;
-        padding: 30px;
-      }
-      .heart {
-        width: 10px;
-        height: 10px;
-      }
-      .heart::before, .heart::after {
-        width: 10px;
-        height: 10px;
-      }
-      .heart::before {
-        top: -5px;
-      }
-      .heart::after {
-        left: 5px;
-      }
-      .heart:nth-child(2) { top: -30px; left: 0; }
-      .heart:nth-child(3) { top: -20px; left: 20px; }
-      .heart:nth-child(4) { top: 0; left: 30px; }
-      .heart:nth-child(5) { top: 20px; left: 20px; }
-      .heart:nth-child(6) { top: 30px; left: 0; }
-      .heart:nth-child(7) { top: 20px; left: -20px; }
-      .heart:nth-child(8) { top: 0; left: -30px; }
-      .heart:nth-child(9) { top: -20px; left: -20px; }
-      .heart:nth-child(10) { top: -40px; left: 15px; }
-      .heart:nth-child(11) { top: 40px; left: 15px; }
-      .heart:nth-child(12) { top: 40px; left: -15px; }
-      .heart:nth-child(13) { top: -40px; left: -15px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Goodnight Message</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            color: #fff;
+            z-index: 10;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            animation: fadeIn 2s ease-in;
+        }
+        p {
+            font-size: 1.5em;
+            margin: 10px 0;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            animation: fadeIn 3s ease-in;
+        }
+        .moon {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #f0e68c 50%, transparent 55%);
+            border-radius: 50%;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: glow 4s ease-in-out infinite;
+            z-index: 5;
+        }
+        .flower {
+            position: absolute;
+            font-size: 1.5em;
+            animation: fall linear infinite;
+            color: #ff9999;
+            text-shadow: 0 0 5px rgba(255, 153, 153, 0.7);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px 5px rgba(240, 230, 140, 0.7); }
+            50% { box-shadow: 0 0 30px 10px rgba(240, 230, 140, 1); }
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0.5; }
+        }
+    </style>
 </head>
 <body>
-  <div class="loading active">
-    <div class="loading-text">Blooming...</div>
-    <div class="flower">
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="petal"></div>
-      <div class="center"></div>
+    <div class="moon"></div>
+    <div class="container">
+        <h1>Goodnight Sweetie</h1>
+        <p>Stay happy and lots of love to you baccha! 🌙</p>
     </div>
-  </div>
-
-  <div class="happy-text">Always stay happy, everything gonna be alright 💞
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-    <div class="heart"></div>
-  </div>
-
-  <script>
-    setTimeout(() => {
-      document.querySelector('.loading').classList.remove('active');
-      document.querySelector('.happy-text').classList.add('active');
-    }, 3000);
-  </script>
+    <script>
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.innerHTML = '🌸';
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.animationDuration = Math.random() * 5 + 5 + 's';
+            flower.style.fontSize = Math.random() * 0.5 + 1 + 'em';
+            document.body.appendChild(flower);
+            setTimeout(() => flower.remove(), 10000);
+        }
+        setInterval(createFlower, 300);
+    </script>
 </body>
 </html>
